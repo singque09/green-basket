@@ -1,22 +1,17 @@
 import React from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import RightIconsRender from "./RightIcons";
 import {
   AppBar,
-  Drawer,
   Button,
   IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Toolbar,
   Typography,
 } from "@material-ui/core";
 import { Home, ShoppingCart } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
+import RenderMobileMenu from "./RenderMobileMenu";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -89,8 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TopNavbar({shoppingCart}) {
-  
+export default function TopNavbar({ shoppingCart }) {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -108,30 +102,6 @@ export default function TopNavbar({shoppingCart}) {
     { name: "Home", icon: <Home /> },
     { name: "Shop", icon: <ShoppingCart /> },
   ];
-
-  const renderMenu = (
-    <Drawer
-      anchor={"left"}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <div
-        className={clsx(classes.list)}
-        role="presentation"
-        onClick={handleMobileMenuClose}
-        onKeyDown={handleMobileMenuClose}
-      >
-        <List>
-          {menuItems.map((menuItem, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon>{menuItem.icon}</ListItemIcon>
-              <ListItemText primary={menuItem.name} />
-            </ListItem>
-          ))}
-        </List>
-      </div>
-    </Drawer>
-  );
 
   return (
     <div className={classes.grow}>
@@ -170,7 +140,11 @@ export default function TopNavbar({shoppingCart}) {
           </div>
         </Toolbar>
       </AppBar>
-      {renderMenu}
+      <RenderMobileMenu
+        menuItems={menuItems}
+        isMobileMenuOpen={isMobileMenuOpen}
+        handleMobileMenuClose={() => setMobileMoreAnchorEl(null)}
+      />
     </div>
   );
 }

@@ -1,45 +1,53 @@
 import React from "react";
-import { IconButton, Badge, MenuItem, Menu } from "@material-ui/core";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import {
+  Container,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
+import clsx from "clsx";
+import Footer from "../Footer/Footer";
+
+const useStyles = makeStyles((theme) => ({}));
 
 export default function RenderMobileMenu({
-  mobileMoreAnchorEl,
+  menuItems,
   isMobileMenuOpen,
-  onClose = (f) => f,
-  onClickMenu = (f) => f,
+  handleMobileMenuClose = (f) => f,
 }) {
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const handleProfileMenuOpen = e => onClickMenu(e.currentTarget);
+  const classes = useStyles();
+  const handleProfileMenuOpen = (e) => handleMobileMenuClose(e.currentTarget);
   return (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+    <Drawer
+      anchor={"bottom"}
       open={isMobileMenuOpen}
-      onClose={onClose}
+      onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={17} color="dark">
-            <ShoppingCartIcon />
-          </Badge>
-        </IconButton>
-        <p>Cart</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
+      <div
+        role="presentation"
+        onClick={handleMobileMenuClose}
+        onKeyDown={handleMobileMenuClose}
+      >
+        <List>
+          {menuItems.map((menuItem, index) => (
+            <ListItem button key={index}>
+              <ListItemIcon>{menuItem.icon}</ListItemIcon>
+              <ListItemText primary={menuItem.name} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          <Container>
+            <ListItemText primary="" secondary={<Footer />} />
+          </Container>
+        </List>
+      </div>
+    </Drawer>
   );
 }

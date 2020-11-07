@@ -19,7 +19,7 @@ export default function ShopItem(props) {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Grid item xs={12} sm={4} md={3} lg={2}>
+      <Grid item xs={12} sm={6} md={4} lg={3}>
         <Card raised>
           <CardMedia
             className={classes.media}
@@ -44,6 +44,7 @@ export default function ShopItem(props) {
             direction="column"
             justify="center"
             alignItems="center"
+            style={{ marginBottom: "50px" }}
           >
             <Grid item xs={12}>
               <Button
@@ -51,12 +52,7 @@ export default function ShopItem(props) {
                 color="primary"
                 style={{ color: "white" }}
               >
-                ADD TO CART
-              </Button>
-            </Grid>
-            <Grid item xs={12} style={{ marginBottom: "30px" }}>
-              <Button size="small" color="primary">
-                VIEW CART
+                <strong>ADD TO CART</strong>
               </Button>
             </Grid>
           </Grid>

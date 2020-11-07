@@ -13,7 +13,7 @@ export default function RightIconsRender({shoppingCart}) {
       >
         <AccountCircle />
       </IconButton>
-      <IconButton color="primary" aria-label="show 17 new notifications">
+      <IconButton color="primary" aria-label={`show ${shoppingCart.quantity} new notifications`}>
         <Badge badgeContent={shoppingCart.quantity} color="secondary">
           <ShoppingCartIcon />
         </Badge>
