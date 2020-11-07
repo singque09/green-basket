@@ -39,12 +39,10 @@ export default function LeftSideBar() {
     } else {
       newChecked.splice(currentIndex, 1);
     }
-    console.log(newChecked);
-    console.log(currentIndex);
     setChecked(newChecked);
   };
   return (
-    <Grid item style={{ width: "240px" }}>
+    <Grid item style={{ width: "240px", marginTop: "10px" }}>
       <Typography color="primary" variant="h5">
         <strong>Shopping Cart</strong>
       </Typography>
