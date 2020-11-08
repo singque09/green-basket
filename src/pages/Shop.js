@@ -21,7 +21,7 @@ export default function Shop(props) {
   
   return (
     <Card variant="outlined">
-      <CardContent style={{ padding: "30px" }}>
+      <CardContent style={{ padding: "20px" }}>
         <Grid container spacing={5}>
           <Hidden smDown>
             <LeftSideBar />
@@ -87,6 +87,8 @@ export default function Shop(props) {
                   name={item.name}
                   price={item.price}
                   image={item.image}
+                  description={item.description}
+                  gridView={gridView[1]}
                 />
               ))}
             </Grid>
