@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import React, { useState } from "react";
+import { useShopItems } from "../../hooks/ShopItemsProvider";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -27,39 +28,46 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
+  textField: {
+    
+    WebkitAppearance:"none"
+  }
 }));
 
 export default function ShopItem(props) {
   const classes = useStyles();
-  const [quantity, setQuantity] = useState(1);
-  const handleCounterInput = (val, key) => {
-    const newQuantity = quantity + val;
-    setQuantity(newQuantity);
-  };
+  const { changeQuantity } = useShopItems();
 
-  function ShopCounter(props) {
+  function ShopCounter({ style, id, quantity, index }) {
     return (
       <Grid
         container
         direction="column"
         justify="center"
         alignItems="center"
-        style={props.style}
+        style={style}
       >
         <Grid item xs={12}>
           <div className={classes.controls}>
-            <IconButton>
+            <IconButton
+              onClick={() => changeQuantity(id, Number(quantity - 1))}
+            >
               <RemoveIcon />
             </IconButton>
             <TextField
-              value={1}
+            type="number"
+              value={quantity}
+              onChange={(e) => changeQuantity(id, Number(e.target.value))}
+              name={id}
+              className={classes.textField}
               variant="outlined"
               size="small"
               margin="dense"
-              name={props.key}
               style={{ width: "60px" }}
             />
-            <IconButton>
+            <IconButton
+              onClick={() => changeQuantity(id, Number(quantity + 1))}
+            >
               <AddIcon />
             </IconButton>
           </div>

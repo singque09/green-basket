@@ -90,10 +90,6 @@ export default function TopNavbar({ shoppingCart }) {
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -122,7 +118,7 @@ export default function TopNavbar({ shoppingCart }) {
                 {menuItem.name}
               </Button>
             ))}
-            <IconButton color="inherit">
+            <IconButton>
               <SearchIcon />
             </IconButton>
             <RightIconsRender shoppingCart={shoppingCart} />

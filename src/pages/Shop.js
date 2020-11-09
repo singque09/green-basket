@@ -7,7 +7,6 @@ import {
   IconButton,
   MenuItem,
   Select,
-  Typography,
 } from "@material-ui/core";
 import { FilterList } from "@material-ui/icons";
 import AppsIcon from "@material-ui/icons/Apps";
@@ -96,8 +95,9 @@ export default function Shop() {
                 .slice((page - 1) * 12, page * 12)
                 .map((item, index) => (
                   <ShopItem
-                    key={item + index}
+                    key={item.id + index}
                     {...item}
+                    index={index}
                     gridView={gridView[1]}
                   />
                 ))}
