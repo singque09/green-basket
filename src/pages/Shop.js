@@ -7,18 +7,23 @@ import {
   IconButton,
   MenuItem,
   Select,
+  Typography,
 } from "@material-ui/core";
 import { FilterList } from "@material-ui/icons";
 import AppsIcon from "@material-ui/icons/Apps";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
+import { Pagination } from "@material-ui/lab";
 import React from "react";
 import LeftSideBar from "../components/LeftSidebar/LeftSideBar";
 import ShopItem from "../components/ShopItem/ShopItem";
+import { useShopItems } from "../hooks/ShopItemsProvider";
 
-export default function Shop(props) {
+export default function Shop() {
+  const { shopItems } = useShopItems();
   const [sortBy, setSortby] = React.useState(3);
-  const [gridView, setGridView] = React.useState(["secondary",""]);
-  
+  const [gridView, setGridView] = React.useState(["secondary", ""]);
+  const [page, setPage] = React.useState(1);
+
   return (
     <Card variant="outlined">
       <CardContent style={{ padding: "20px" }}>
@@ -43,10 +48,16 @@ export default function Shop(props) {
                       alignItems="center"
                     >
                       <Grid item xs={8}>
-                        <IconButton color={gridView[0]} onClick={()=>setGridView(["secondary",""])}>
+                        <IconButton
+                          color={gridView[0]}
+                          onClick={() => setGridView(["secondary", ""])}
+                        >
                           <AppsIcon />
                         </IconButton>
-                        <IconButton color={gridView[1]} onClick={()=>setGridView(["","secondary"])}>
+                        <IconButton
+                          color={gridView[1]}
+                          onClick={() => setGridView(["", "secondary"])}
+                        >
                           <FormatListBulletedIcon />
                         </IconButton>
                       </Grid>
@@ -81,16 +92,35 @@ export default function Shop(props) {
                   </Grid>
                 </Grid>
               </Grid>
-              {props.generateShopItem.map((item, index) => (
-                <ShopItem
-                  key={item.id + index}
-                  name={item.name}
-                  price={item.price}
-                  image={item.image}
-                  description={item.description}
-                  gridView={gridView[1]}
-                />
-              ))}
+              {shopItems
+                .slice((page - 1) * 12, page * 12)
+                .map((item, index) => (
+                  <ShopItem
+                    key={item + index}
+                    {...item}
+                    gridView={gridView[1]}
+                  />
+                ))}
+              <Grid item xs={12}>
+                <Grid
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <Pagination
+                    page={page}
+                    onChange={(e, value) => setPage(value)}
+                    count={Math.ceil(shopItems.length / 12)}
+                    color="secondary"
+                    showFirstButton
+                    showLastButton
+                    defaultPage={1}
+                    siblingCount={0}
+                    size="large"
+                  />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

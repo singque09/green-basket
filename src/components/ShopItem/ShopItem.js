@@ -9,10 +9,10 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import React from "react";
+import React, { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -31,7 +31,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ShopItem(props) {
   const classes = useStyles();
-  console.log(props);
+  const [quantity, setQuantity] = useState(1);
+  const handleCounterInput = (val, key) => {
+    const newQuantity = quantity + val;
+    setQuantity(newQuantity);
+  };
 
   function ShopCounter(props) {
     return (
@@ -44,17 +48,19 @@ export default function ShopItem(props) {
       >
         <Grid item xs={12}>
           <div className={classes.controls}>
-            <IconButton aria-label="previous">
-              <AddIcon />
+            <IconButton>
+              <RemoveIcon />
             </IconButton>
             <TextField
+              value={1}
               variant="outlined"
               size="small"
               margin="dense"
+              name={props.key}
               style={{ width: "60px" }}
             />
-            <IconButton aria-label="next">
-              <RemoveIcon />
+            <IconButton>
+              <AddIcon />
             </IconButton>
           </div>
         </Grid>
@@ -92,7 +98,7 @@ export default function ShopItem(props) {
               >
                 <ShopCounter
                   style={{ position: "relative", top: "60%" }}
-                  key={props.key}
+                  {...props}
                 />
                 <Typography
                   component="h5"
@@ -153,7 +159,7 @@ export default function ShopItem(props) {
               {props.price} PHP
             </Typography>
           </CardContent>
-          <ShopCounter key={props.key} style={{ marginBottom: "50px" }} />
+          <ShopCounter {...props} style={{ marginBottom: "50px" }} />
         </Card>
       </Grid>
     </React.Fragment>
