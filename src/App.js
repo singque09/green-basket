@@ -7,19 +7,17 @@ import BackgroundImage from "./components/BackgroundImage/BackgroundImage";
 import Footer from "./components/Footer/Footer";
 import ShopItemsProvider from "./hooks/ShopItemsProvider";
 
-const shoppingCart = { items: [] };
-
 export default function App() {
   return (
     <React.Fragment>
-      <TopNavbar shoppingCart={shoppingCart} />
-      <BackgroundImage />
-      <Container maxWidth="lg">
-        <ShopItemsProvider>
+      <ShopItemsProvider>
+        <TopNavbar />
+        <BackgroundImage />
+        <Container maxWidth="lg">
           <Shop />
-        </ShopItemsProvider>
-        <Footer style={{ marginTop: "50px", marginBottom: "20px" }} />
-      </Container>
+          <Footer style={{ marginTop: "50px", marginBottom: "20px" }} />
+        </Container>
+      </ShopItemsProvider>
     </React.Fragment>
   );
 }

@@ -20,7 +20,7 @@ import { useShopItems } from "../hooks/ShopItemsProvider";
 export default function Shop() {
   const { shopItems } = useShopItems();
   const [sortBy, setSortby] = React.useState(3);
-  const [gridView, setGridView] = React.useState(["secondary", ""]);
+  const [gridView, setGridView] = React.useState(["secondary", "inherit"]);
   const [page, setPage] = React.useState(1);
 
   return (
@@ -49,13 +49,13 @@ export default function Shop() {
                       <Grid item xs={8}>
                         <IconButton
                           color={gridView[0]}
-                          onClick={() => setGridView(["secondary", ""])}
+                          onClick={() => setGridView(["secondary", "inherit"])}
                         >
                           <AppsIcon />
                         </IconButton>
                         <IconButton
                           color={gridView[1]}
-                          onClick={() => setGridView(["", "secondary"])}
+                          onClick={() => setGridView(["inherit", "secondary"])}
                         >
                           <FormatListBulletedIcon />
                         </IconButton>

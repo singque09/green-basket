@@ -7,22 +7,14 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  makeStyles,
-  Toolbar,
-  Typography,
 } from "@material-ui/core";
-import clsx from "clsx";
 import Footer from "../Footer/Footer";
-
-const useStyles = makeStyles((theme) => ({}));
 
 export default function RenderMobileMenu({
   menuItems,
   isMobileMenuOpen,
   handleMobileMenuClose = (f) => f,
 }) {
-  const classes = useStyles();
-  const handleProfileMenuOpen = (e) => handleMobileMenuClose(e.currentTarget);
   return (
     <Drawer
       anchor={"bottom"}

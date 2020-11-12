@@ -12,6 +12,7 @@ import { Home, ShoppingCart } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import RenderMobileMenu from "./RenderMobileMenu";
+import { useShopItems } from "../../hooks/ShopItemsProvider";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -84,7 +85,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TopNavbar({ shoppingCart }) {
+export default function TopNavbar() {
+  const {shoppingCartItems} = useShopItems();
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -121,7 +123,7 @@ export default function TopNavbar({ shoppingCart }) {
             <IconButton>
               <SearchIcon />
             </IconButton>
-            <RightIconsRender shoppingCart={shoppingCart} />
+            <RightIconsRender shoppingCart={shoppingCartItems} />
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -132,7 +134,7 @@ export default function TopNavbar({ shoppingCart }) {
             >
               <MenuIcon />
             </IconButton>
-            <RightIconsRender shoppingCart={shoppingCart} />
+            <RightIconsRender shoppingCart={shoppingCartItems} />
           </div>
         </Toolbar>
       </AppBar>

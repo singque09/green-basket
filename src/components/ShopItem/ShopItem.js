@@ -1,19 +1,14 @@
 import {
-  Button,
   Card,
   CardContent,
   CardMedia,
   Grid,
   Hidden,
-  IconButton,
-  TextField,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-import React, { useState } from "react";
-import { useShopItems } from "../../hooks/ShopItemsProvider";
+import React from "react";
+import ShopCounter from "./ShopCounter";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -22,68 +17,10 @@ const useStyles = makeStyles((theme) => ({
   mediaColumn: {
     height: 300,
   },
-  controls: {
-    display: "flex",
-    alignItems: "center",
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-  },
-  textField: {
-    
-    WebkitAppearance:"none"
-  }
 }));
 
 export default function ShopItem(props) {
   const classes = useStyles();
-  const { changeQuantity } = useShopItems();
-
-  function ShopCounter({ style, id, quantity, index }) {
-    return (
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-        style={style}
-      >
-        <Grid item xs={12}>
-          <div className={classes.controls}>
-            <IconButton
-              onClick={() => changeQuantity(id, Number(quantity - 1))}
-            >
-              <RemoveIcon />
-            </IconButton>
-            <TextField
-            type="number"
-              value={quantity}
-              onChange={(e) => changeQuantity(id, Number(e.target.value))}
-              name={id}
-              className={classes.textField}
-              variant="outlined"
-              size="small"
-              margin="dense"
-              style={{ width: "60px" }}
-            />
-            <IconButton
-              onClick={() => changeQuantity(id, Number(quantity + 1))}
-            >
-              <AddIcon />
-            </IconButton>
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ color: "white" }}
-          >
-            <strong>ADD TO CART</strong>
-          </Button>
-        </Grid>
-      </Grid>
-    );
-  }
 
   if (props.gridView === "secondary") {
     return (
@@ -122,7 +59,10 @@ export default function ShopItem(props) {
                     align="left"
                     component="p"
                   >
-                    {props.price} PHP
+                  {new Intl.NumberFormat("en-PH", {
+                    style: "currency",
+                    currency: "PHP",
+                  }).format(props.price)}
                   </Typography>
                 </Typography>
                 <Typography variant="subtitle1" color="textSecondary">
@@ -164,7 +104,10 @@ export default function ShopItem(props) {
               align="center"
               component="p"
             >
-              {props.price} PHP
+            {new Intl.NumberFormat("en-PH", {
+              style: "currency",
+              currency: "PHP",
+            }).format(props.price)}
             </Typography>
           </CardContent>
           <ShopCounter {...props} style={{ marginBottom: "50px" }} />
