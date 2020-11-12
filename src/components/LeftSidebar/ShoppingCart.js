@@ -96,9 +96,6 @@ export default function ShoppingCart() {
 
   return (
     <React.Fragment>
-      <Typography color="primary" variant="h5">
-        <strong>Shopping Cart</strong>
-      </Typography>
       {shoppingCart(shoppingCartItems.length === 0)}
     </React.Fragment>
   );
