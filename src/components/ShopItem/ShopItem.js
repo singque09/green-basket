@@ -92,11 +92,11 @@ export default function ShopItem(props) {
             <Typography
               gutterBottom
               align="center"
-              variant="h6"
-              component="h1"
+              variant="body1"
+              component="h3"
               style={{ height: "60px" }}
             >
-              {props.name}
+              <strong>{props.name}</strong>
             </Typography>
             <Typography
               variant="body2"

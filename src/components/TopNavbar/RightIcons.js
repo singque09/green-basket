@@ -1,16 +1,27 @@
 import React from "react";
-import { IconButton, Badge, Menu, MenuItem } from "@material-ui/core";
+import {
+  IconButton,
+  Badge,
+  Hidden,
+  Drawer,
+} from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import ShoppingCart from "../LeftSidebar/ShoppingCart";
 
 export default function RightIconsRender({ shoppingCart }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const [drawerAnchorEl, setDrawerAnchorEl] = React.useState({
+    left: false,
+    right: false,
+  });
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setDrawerAnchorEl({ ...drawerAnchorEl, [anchor]: open });
   };
   return (
     <React.Fragment>
@@ -24,23 +35,27 @@ export default function RightIconsRender({ shoppingCart }) {
       <IconButton
         color="primary"
         aria-label={`show ${shoppingCart.length} new notifications`}
-        onClick={handleClick}
+        onClick={toggleDrawer("left", true)}
       >
         <Badge badgeContent={shoppingCart.length} color="secondary">
           <ShoppingCartIcon />
         </Badge>
       </IconButton>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem>
-          <ShoppingCart />
-        </MenuItem>
-      </Menu>
+      <Hidden mdUp>
+        <Drawer
+          anchor={"bottom"}
+          open={drawerAnchorEl["left"]}
+          onClose={toggleDrawer("left", false)}
+        >
+          <div
+            role="presentation"
+            onClick={toggleDrawer("left", false)}
+            onKeyDown={toggleDrawer("left", false)}
+          >
+            <ShoppingCart />
+          </div>
+        </Drawer>
+      </Hidden>
     </React.Fragment>
   );
 }

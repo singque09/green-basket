@@ -103,7 +103,7 @@ export default function TopNavbar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="sticky" className={classes.navbarColor}>
+      <AppBar position="fixed" className={classes.navbarColor}>
         <Toolbar>
           <Typography
             className={classes.title}
