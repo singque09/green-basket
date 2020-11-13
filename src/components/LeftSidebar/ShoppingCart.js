@@ -23,6 +23,7 @@ export default function ShoppingCart() {
         <Typography
           style={{ color: "grey", margin: "50px 0px" }}
           variant="body1"
+          align="center"
         >
           No products in the cart.
         </Typography>

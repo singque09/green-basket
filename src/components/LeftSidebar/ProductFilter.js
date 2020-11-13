@@ -10,19 +10,22 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-
-function valuetext(value) {
-  return value;
-}
+import { useShopItems } from "../../hooks/ShopItemsProvider";
 
 export default function ProductFilter() {
+  const {filterProduct, filterPrice} = useShopItems();
   const productFilter = ["Fruit", "Meat", "Seafood", "Vegetable"];
   const [checked, setChecked] = React.useState([]);
-  const [range, setRange] = React.useState([100, 500]);
+  const [range, setRange] = React.useState([0, 1000]);
 
   const handleChange = (event, newValue) => {
     setRange(newValue);
   };
+
+  const resetFilter = () => {
+    setChecked([])
+    filterProduct([0,1,2,3])
+  }
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -33,7 +36,9 @@ export default function ProductFilter() {
     } else {
       newChecked.splice(currentIndex, 1);
     }
+    setRange([0,1000])
     setChecked(newChecked);
+    filterProduct(newChecked)
   };
   return (
     <React.Fragment>
@@ -45,7 +50,7 @@ export default function ProductFilter() {
           const labelId = `checkbox-list-label-${index}`;
           return (
             <ListItem
-              key={index}
+              key={value}
               role={undefined}
               dense
               button
@@ -57,7 +62,6 @@ export default function ProductFilter() {
                   checked={checked.indexOf(index) !== -1}
                   tabIndex={-1}
                   disableRipple
-                  inputProps={{ "aria-labelledby": labelId }}
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={`${value}`} />
@@ -69,6 +73,7 @@ export default function ProductFilter() {
         variant="contained"
         color="primary"
         style={{ color: "white", margin: "10px 0", width: "100%" }}
+        onClick={resetFilter}
       >
         Reset
       </Button>
@@ -82,20 +87,25 @@ export default function ProductFilter() {
         color="secondary"
         max={1000}
         valueLabelDisplay="auto"
-        aria-labelledby="range-slider"
-        getAriaValueText={valuetext}
         style={{ margin: "20px 0" }}
       />
       <Typography align="center" variant="body2" color="primary">
         <span style={{ color: "grey" }}>Price: </span>{" "}
-        {range[0].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}PHP
+        {new Intl.NumberFormat("en-PH", {
+          style: "currency",
+          currency: "PHP",
+        }).format(range[0])}
         <span style={{ color: "grey", margin: "50px 0px" }}> - </span>
-        {range[1].toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}PHP
+        {new Intl.NumberFormat("en-PH", {
+          style: "currency",
+          currency: "PHP",
+        }).format(range[1])}
       </Typography>
       <Button
         variant="contained"
         color="primary"
         style={{ color: "white", margin: "10px 0", width: "100%" }}
+        onClick={()=>filterPrice(range)}
       >
         Filter Price
       </Button>

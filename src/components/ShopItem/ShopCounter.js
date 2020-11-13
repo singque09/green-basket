@@ -22,8 +22,8 @@ export default function ShopCounter(props) {
   const { addToCart, updateCart } = useShopItems();
   const [counter, setCounter] = useState(props.quantity);
 
-  const handleChange = (evt) => {
-    setCounter(evt.target.value);
+  const handleChange = (val) => {
+    val <= 0 ? setCounter(1) : setCounter(val)
   };
 
   const onAddToCart = () => {
@@ -78,13 +78,13 @@ export default function ShopCounter(props) {
     >
       <Grid item xs={12}>
         <div className={classes.controls}>
-          <IconButton onClick={() => setCounter(Number(counter) - 1)}>
+          <IconButton onClick={() => handleChange(Number(counter) - 1)}>
             <RemoveIcon />
           </IconButton>
           <TextField
             type="number"
             value={counter}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e.target.value)}
             name={props.id}
             className={classes.textField}
             variant="outlined"
@@ -92,7 +92,7 @@ export default function ShopCounter(props) {
             margin="dense"
             style={{ width: "60px" }}
           />
-          <IconButton onClick={() => setCounter(Number(counter) + 1)}>
+          <IconButton onClick={() => handleChange(Number(counter) + 1)}>
             <AddIcon />
           </IconButton>
         </div>

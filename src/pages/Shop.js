@@ -1,6 +1,7 @@
 import {
   Card,
   CardContent,
+  Drawer,
   FormControl,
   Grid,
   Hidden,
@@ -14,14 +15,32 @@ import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import { Pagination } from "@material-ui/lab";
 import React from "react";
 import LeftSideBar from "../components/LeftSidebar/LeftSideBar";
+import ProductFilter from "../components/LeftSidebar/ProductFilter";
 import ShopItem from "../components/ShopItem/ShopItem";
 import { useShopItems } from "../hooks/ShopItemsProvider";
 
 export default function Shop() {
-  const { shopItems } = useShopItems();
+  const { shopItems, sortProductsBy } = useShopItems();
   const [sortBy, setSortby] = React.useState(3);
   const [gridView, setGridView] = React.useState(["secondary", "inherit"]);
   const [page, setPage] = React.useState(1);
+
+  const [drawerAnchorEl, setDrawerAnchorEl] = React.useState(false);
+
+  const handleChange = (val) => {
+    setSortby(val)
+    sortProductsBy(val)
+  }
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setDrawerAnchorEl(open);
+  };
 
   return (
     <Card variant="outlined">
@@ -62,7 +81,10 @@ export default function Shop() {
                       </Grid>
                       <Grid item xs>
                         <Hidden smUp>
-                          <IconButton style={{ float: "right" }}>
+                          <IconButton
+                            style={{ float: "right" }}
+                            onClick={toggleDrawer(true)}
+                          >
                             <FilterList />
                           </IconButton>
                         </Hidden>
@@ -75,10 +97,8 @@ export default function Shop() {
                       <Select
                         displayEmpty
                         value={sortBy}
-                        onChange={(e) => setSortby(e.target.value)}
+                        onChange={(e) => handleChange(e.target.value)}
                       >
-                        <MenuItem value={1}>Sort by Popularity</MenuItem>
-                        <MenuItem value={2}>Sort by average rating</MenuItem>
                         <MenuItem value={3}>Sort by latest</MenuItem>
                         <MenuItem value={4}>
                           Sort by price: low to high
@@ -125,6 +145,21 @@ export default function Shop() {
           </Grid>
         </Grid>
       </CardContent>
+      <Hidden smUp>
+        <Drawer
+          anchor={"bottom"}
+          open={drawerAnchorEl}
+          onClose={toggleDrawer(false)}
+        >
+          <div
+            role="presentation"
+            onKeyDown={toggleDrawer(false)}
+            style={{padding:"20px"}}
+          >
+            <ProductFilter />
+          </div>
+        </Drawer>
+      </Hidden>
     </Card>
   );
 }
